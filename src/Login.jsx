@@ -25,7 +25,7 @@ const Login = () => {
       );
       console.log(user);
       if (user) {
-        return navigate("/");
+        return navigate("/react-test-orders");
       }
     } catch (error) {
       console.log(error.message);

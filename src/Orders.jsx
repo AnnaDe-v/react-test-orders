@@ -44,11 +44,10 @@ export default function Orders() {
     ) {
       setError(false);
       setIsLoading(true);
-      console.log("Yep");
       return createOrder({ name, documentName })
         .then(() => getOrders())
         .then(() => {
-          setTextOrder("");
+          setTextOrder("")
         })
         .catch((err) => {
           setError(true);
@@ -126,61 +125,12 @@ export default function Orders() {
     <>
       <div className="App">
 
-
       <Tabs items={items}/>
-
-
-        {/* <section className="order-form">
-          <div className="container">
-            <select onClick={handleSelectValue}>
-              <option value="Иванов И. И.">Иванов И. И.</option>
-              <option value="Петров П. П.">Петров П. П.</option>
-              <option value="Сидоров С. С">Сидоров С. С</option>
-            </select>
-            <input
-              type="text"
-              onChange={handleEditInputValue}
-              value={textOrder}
-            />
-
-            <button type="button" onClick={addNewOrder}>
-              add order
-            </button>
-
-            {isLoading && <div>Loading...</div>}
-            {error && <div>Вы уже оставляли заявку на данный документ</div>}
-          </div>
-        </section>
-
-        <section className="order-table">
-          <div className="container">
-            <div className="order-table__inner">
-              <h2 className="order-table__title">Order's table</h2>
-              <div className="order-table__description">
-                <div className="order-table__description-item">Документ</div>
-                <div className="order-table__description-item">
-                  Количество заявок
-                </div>
-              </div>
-              {ordersResult.map((order, index) => (
-                <div className="order-table__row" key={index}>
-                  <div>{order.documentName}</div>
-                  <div>{order.count}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section> */}
 
       </div>
     </>
   );
 }
-
-
-
-
-
 
 
 const TabContent = ({ title, content }) => (

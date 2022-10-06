@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       setPending(false);
 
       if (!user) {
-        return navigate("/login");
+        return navigate("/react-test-orders/login");
       }
     });
   }, []);

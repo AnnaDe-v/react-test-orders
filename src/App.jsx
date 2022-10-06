@@ -18,9 +18,9 @@ function App() {
         <BrowserRouter>
       <AuthProvider>
           <Routes>
-            <Route index  element={<Orders/>} />
-            <Route exact path="login" element={<Login/>}/>
-            <Route exact path="signup" element={<SignUp/>}/>
+            <Route path="react-test-orders"  element={<Orders/>} />
+            <Route exact path="react-test-orders/login" element={<Login/>}/>
+            <Route exact path="react-test-orders/signup" element={<SignUp/>}/>
           </Routes>
       </AuthProvider>
         </BrowserRouter>
