@@ -1,7 +1,6 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "./firebase/firebase";
-import { AuthContext } from "./firebase/AuthProvider";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -10,7 +9,6 @@ import {
 } from "firebase/auth";
 
 const Login = () => {
-  console.log(1111111);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
@@ -23,7 +21,7 @@ const Login = () => {
         loginEmail,
         loginPassword
       );
-      console.log(user);
+
       if (user) {
         return navigate("/react-test-orders");
       }
@@ -47,10 +45,7 @@ const Login = () => {
     }
   };
 
-  // const currentUser  = useContext(AuthContext);
-  // console.log('currentUser',currentUser)
-  // const currentUser =null
-  
+ 
 
   return (
     <>

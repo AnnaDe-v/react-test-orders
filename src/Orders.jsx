@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createOrder } from "./api/createOrder";
 import { getOrdersData } from "./api/getOrders";
-import './Orders.css';
+import "./Orders.css";
 
 export default function Orders() {
   const [ordersData, setOrdersData] = useState([]);
@@ -10,17 +10,20 @@ export default function Orders() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
-
   useEffect(() => {
-    getOrders()
+    getOrders();
   }, []);
 
   const getOrders = () => {
+    setIsLoading(true);
     return getOrdersData()
       .then((orders) => setOrdersData(orders))
       .catch((err) => {
         console.error(err);
         setError(true);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -47,7 +50,7 @@ export default function Orders() {
       return createOrder({ name, documentName })
         .then(() => getOrders())
         .then(() => {
-          setTextOrder("")
+          setTextOrder("");
         })
         .catch((err) => {
           setError(true);
@@ -74,95 +77,98 @@ export default function Orders() {
     return { documentName: o, count: filteredOrdersData[o] };
   });
 
-
-
-
   const items = [
-    { title: 'Добавить заявку', content: <section className="order-form">
-    <div className="container">
-      <select onClick={handleSelectValue}>
-        <option value="Иванов И. И.">Иванов И. И.</option>
-        <option value="Петров П. П.">Петров П. П.</option>
-        <option value="Сидоров С. С">Сидоров С. С</option>
-      </select>
-      <input
-        type="text"
-        onChange={handleEditInputValue}
-        value={textOrder}
-      />
+    {
+      title: "Добавить заявку",
+      content: (
+        <section className="order-form">
+          <div className="container">
+            <select onClick={handleSelectValue}>
+              <option value="Иванов И. И.">Иванов И. И.</option>
+              <option value="Петров П. П.">Петров П. П.</option>
+              <option value="Сидоров С. С">Сидоров С. С</option>
+            </select>
+            <input
+              type="text"
+              onChange={handleEditInputValue}
+              value={textOrder}
+            />
 
-      <button type="button" onClick={addNewOrder}>
-        add order
-      </button>
+            <button type="button" onClick={addNewOrder}>
+              add order
+            </button>
 
-      {isLoading && <div>Loading...</div>}
-      {error && <div>Вы уже оставляли заявку на данный документ</div>}
-    </div>
-  </section> },
-    { title: 'Сводная таблица', content: <section className="order-table">
-    <div className="container">
-      <div className="order-table__inner">
-        <h2 className="order-table__title">Order's table</h2>
-        <div className="order-table__description">
-          <div className="order-table__description-item">Документ</div>
-          <div className="order-table__description-item">
-            Количество заявок
+            {isLoading && <div>Loading...</div>}
+            {error && (
+              <div>
+                Пользователь с именем {textSelect} уже оставлял заявку на данный
+                документ
+              </div>
+            )}
           </div>
-        </div>
-        {ordersResult.map((order, index) => (
-          <div className="order-table__row" key={index}>
-            <div>{order.documentName}</div>
-            <div>{order.count}</div>
+        </section>
+      ),
+    },
+    {
+      title: "Сводная таблица",
+      content: (
+        <section className="order-table">
+          <div className="container">
+            <div className="order-table__inner">
+              <div className="order-table__description">
+                <div className="order-table__description-item">Документ</div>
+                <div className="order-table__description-item">
+                  Количество заявок
+                </div>
+              </div>
+              {ordersResult.map((order, index) => (
+                <div className="order-table__row" key={index}>
+                  <div>{order.documentName}</div>
+                  <div>{order.count}</div>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </section> },
+        </section>
+      ),
+    },
   ];
-
 
   return (
     <>
       <div className="App">
-
-      <Tabs items={items}/>
-
+        <Tabs items={items} />
+        {isLoading && <div>Loading...</div>}
       </div>
     </>
   );
 }
 
-
 const TabContent = ({ title, content }) => (
   <div className="tabcontent">
-    <div>{content}</div> 
+    <div>{content}</div>
   </div>
 );
 
-
 export function Tabs({ items }) {
-  const [ active, setActive ] = React.useState(null);
+  const [active, setActive] = React.useState(null);
 
-  const openTab = e => setActive(+e.target.dataset.index);
+  const openTab = (e) => setActive(+e.target.dataset.index);
 
   return (
     <div>
       <div className="tab">
         {items.map((n, i) => (
           <button
-            className={`tablinks ${i === active ? 'active' : ''}`}
+            className={`tablinks ${i === active ? "active" : ""}`}
             onClick={openTab}
             data-index={i}
-          >{n.title}</button>
+          >
+            {n.title}
+          </button>
         ))}
       </div>
       {items[active] && <TabContent {...items[active]} />}
     </div>
   );
 }
-
-
-
-
-
-

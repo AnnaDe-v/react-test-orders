@@ -4,14 +4,9 @@ import Orders from "./Orders";
 import { AuthProvider } from "./firebase/AuthProvider";
 import Login from "./Login";
 import SignUp from "./SignUp";
-import PrivateRoute from "./PrivateRoute";
-
-
-
 
 
 function App() {
-
 
   return (
     <>
