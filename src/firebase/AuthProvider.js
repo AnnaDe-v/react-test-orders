@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
       console.log("user____", user);
       setCurrentUser(user);
       if (!user) {
-        return navigate("/react-test-orders/login");
+        return navigate("react-test-orders/login");
       }
     });
   }, []);

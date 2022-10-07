@@ -12,9 +12,12 @@ const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [user, setUser] = useState({});
+  const [isRegistered, setIsRegistered] = useState(false);
 
 
 
+
+  const navigate = useNavigate();
   
 
   const login = async () => {
@@ -36,12 +39,13 @@ const Login = () => {
     await signOut(auth);
   };
 
-  const navigate = useNavigate();
 
   const register = async () => {
     try {
       const auth = getAuth();
       await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
+      console.log('успешно');
+      setIsRegistered(true)
     } catch (e) {
       console.log("e", e.code);
     }
@@ -51,7 +55,7 @@ const Login = () => {
   return (
     <>
       <div>
-        <h3> Login </h3>
+        <h3> Login / Sign Up</h3>
         <input
           placeholder="Email..."
           onChange={(event) => {
@@ -73,6 +77,7 @@ const Login = () => {
       <button onClick={logout}> Sign Out </button>
 
       <button onClick={register}>register</button>
+      {isRegistered && <div>Успешная регистрация</div>}
     </>
   );
 };

@@ -5,20 +5,18 @@ import { AuthProvider } from "./firebase/AuthProvider";
 import Login from "./Login";
 import SignUp from "./SignUp";
 
-
 function App() {
-
   return (
     <>
-        <BrowserRouter>
-      <AuthProvider>
+      <BrowserRouter>
+        <AuthProvider>
           <Routes>
-            <Route path="react-test-orders"  element={<Orders/>} />
-            <Route exact path="react-test-orders/login" element={<Login/>}/>
-            <Route exact path="react-test-orders/signup" element={<SignUp/>}/>
+            <Route path="react-test-orders" element={<Orders />} />
+            <Route exact path="react-test-orders/login" element={<Login />} />
+            <Route exact path="react-test-orders/signup" element={<SignUp />} />
           </Routes>
-      </AuthProvider>
-        </BrowserRouter>
+        </AuthProvider>
+      </BrowserRouter>
     </>
   );
 }

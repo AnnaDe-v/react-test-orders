@@ -10,7 +10,9 @@ export default function Orders() {
   const [textOrder, setTextOrder] = useState("");
   const [textSelect, setTextSelect] = useState("Иванов И. И.");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccessed, setIsSuccessed] = useState(false);
   const [error, setError] = useState(false);
+
 
   useEffect(() => {
     getOrders();
@@ -53,6 +55,7 @@ export default function Orders() {
         .then(() => getOrders())
         .then(() => {
           setTextOrder("");
+          setIsSuccessed(true)
         })
         .catch((err) => {
           setError(true);
@@ -99,8 +102,7 @@ export default function Orders() {
             <button type="button" onClick={addNewOrder}>
               add order
             </button>
-
-            {isLoading && <div>Loading...</div>}
+            {isSuccessed && <div>Заявка успешно добавлена</div>}
             {error && (
               <div>
                 Пользователь с именем {textSelect} уже оставлял заявку на данный
