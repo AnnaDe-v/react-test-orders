@@ -44,3 +44,9 @@ body {
 .order-table__description + .order-table__description {
   margin-left: 20px;
 }
+
+.nav-link {
+  text-decoration: none;
+  color: black;
+  margin: 40px;
+}

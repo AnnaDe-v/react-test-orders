@@ -3,7 +3,7 @@ import { createOrder } from "./api/createOrder";
 import { getOrdersData } from "./api/getOrders";
 import "./Orders.css";
 import { AuthContext } from "./firebase/AuthProvider";
-
+import { Link } from "react-router-dom";
 
 export default function Orders() {
   const [ordersData, setOrdersData] = useState([]);
@@ -12,7 +12,6 @@ export default function Orders() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessed, setIsSuccessed] = useState(false);
   const [error, setError] = useState(false);
-
 
   useEffect(() => {
     getOrders();
@@ -55,7 +54,7 @@ export default function Orders() {
         .then(() => getOrders())
         .then(() => {
           setTextOrder("");
-          setIsSuccessed(true)
+          setIsSuccessed(true);
         })
         .catch((err) => {
           setError(true);
@@ -136,6 +135,7 @@ export default function Orders() {
         </section>
       ),
     },
+
   ];
 
   return (
@@ -157,18 +157,15 @@ const TabContent = ({ title, content }) => (
 export function Tabs({ items }) {
   const [active, setActive] = React.useState(null);
 
-
-//   const useAuth = () => {
-//     return useContext(AuthContext);
-//   }
-//  const {currentUser} = useAuth()
-
+  //   const useAuth = () => {
+  //     return useContext(AuthContext);
+  //   }
+  //  const {currentUser} = useAuth()
 
   const openTab = (e) => setActive(+e.target.dataset.index);
 
   return (
     <div>
-
       <div className="tab">
         {/* {currentUser.email} */}
         {items.map((n, i) => (
@@ -180,6 +177,9 @@ export function Tabs({ items }) {
             {n.title}
           </button>
         ))}
+        <Link className="nav-link" to="/react-test-orders/login">
+          Login
+        </Link>
       </div>
       {items[active] && <TabContent {...items[active]} />}
     </div>

@@ -48,6 +48,7 @@ const Login = () => {
       setIsRegistered(true)
     } catch (e) {
       console.log("e", e.code);
+      setIsRegistered(false)
     }
   };
 
