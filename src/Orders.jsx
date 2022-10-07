@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createOrder } from "./api/createOrder";
 import { getOrdersData } from "./api/getOrders";
 import "./Orders.css";
+import { AuthContext } from "./firebase/AuthProvider";
+
 
 export default function Orders() {
   const [ordersData, setOrdersData] = useState([]);
@@ -153,11 +155,20 @@ const TabContent = ({ title, content }) => (
 export function Tabs({ items }) {
   const [active, setActive] = React.useState(null);
 
+
+//   const useAuth = () => {
+//     return useContext(AuthContext);
+//   }
+//  const {currentUser} = useAuth()
+
+
   const openTab = (e) => setActive(+e.target.dataset.index);
 
   return (
     <div>
+
       <div className="tab">
+        {/* {currentUser.email} */}
         {items.map((n, i) => (
           <button
             className={`tablinks ${i === active ? "active" : ""}`}
