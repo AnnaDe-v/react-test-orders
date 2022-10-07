@@ -81,6 +81,10 @@ export default function Orders() {
     return { documentName: o, count: filteredOrdersData[o] };
   });
 
+  const sortOrdersResult = ordersResult.sort(function(b, a) {
+    return a.count - b.count
+  });
+
   const items = [
     {
       title: "Добавить заявку",
@@ -124,7 +128,7 @@ export default function Orders() {
                   Количество заявок
                 </div>
               </div>
-              {ordersResult.map((order, index) => (
+              {sortOrdersResult.map((order, index) => (
                 <div className="order-table__row" key={index}>
                   <div>{order.documentName}</div>
                   <div>{order.count}</div>
