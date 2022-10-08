@@ -81,8 +81,8 @@ export default function Orders() {
     return { documentName: o, count: filteredOrdersData[o] };
   });
 
-  const sortOrdersResult = ordersResult.sort(function(b, a) {
-    return a.count - b.count
+  const sortOrdersResult = ordersResult.sort(function (b, a) {
+    return a.count - b.count;
   });
 
   const items = [
@@ -139,12 +139,11 @@ export default function Orders() {
         </section>
       ),
     },
-
   ];
 
   return (
     <>
-      <div className="App">
+      <div>
         <Tabs items={items} />
         {isLoading && <div>Loading...</div>}
       </div>
@@ -161,17 +160,13 @@ const TabContent = ({ title, content }) => (
 export function Tabs({ items }) {
   const [active, setActive] = React.useState(null);
 
-  //   const useAuth = () => {
-  //     return useContext(AuthContext);
-  //   }
-  //  const {currentUser} = useAuth()
+  const { currentUser } = useContext(AuthContext);
 
   const openTab = (e) => setActive(+e.target.dataset.index);
 
   return (
     <div>
       <div className="tab">
-        {/* {currentUser.email} */}
         {items.map((n, i) => (
           <button
             className={`tablinks ${i === active ? "active" : ""}`}
@@ -181,9 +176,13 @@ export function Tabs({ items }) {
             {n.title}
           </button>
         ))}
-        <Link className="nav-link" to="/react-test-orders/login">
-          Login
-        </Link>
+        <div>
+          <Link className="nav-link" to="/react-test-orders/login">
+            Login page
+          </Link>
+        </div>
+
+        {currentUser?.email}
       </div>
       {items[active] && <TabContent {...items[active]} />}
     </div>

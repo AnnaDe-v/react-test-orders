@@ -1,86 +1,87 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth } from "./firebase/firebase";
+import React, { useContext, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { auth } from "./firebase/firebase"
 import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+	createUserWithEmailAndPassword,
+	getAuth,
+	signInWithEmailAndPassword,
+	signOut
+} from "firebase/auth"
+import { AuthContext } from "./firebase/AuthProvider"
 
 const Login = () => {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [user, setUser] = useState({});
-  const [isRegistered, setIsRegistered] = useState(false);
+	const [loginEmail, setLoginEmail] = useState("")
+	const [loginPassword, setLoginPassword] = useState("")
+	const [user, setUser] = useState({})
+	const [isRegistered, setIsRegistered] = useState(false)
 
+	const { currentUser } = useContext(AuthContext)
 
+	const navigate = useNavigate()
 
+	const login = async () => {
+		try {
+			const user = await signInWithEmailAndPassword(
+				auth,
+				loginEmail,
+				loginPassword
+			)
+			if (user) {
+				return navigate("/react-test-orders")
+			}
+		} catch (error) {
+			console.log(error.message)
+		}
+	}
 
-  const navigate = useNavigate();
-  
+	const logout = async () => {
+		await signOut(auth)
+	}
 
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      )
-      if (user) {
-        return navigate("/react-test-orders");
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+	const register = async () => {
+		try {
+			const auth = getAuth()
+			await createUserWithEmailAndPassword(auth, loginEmail, loginPassword)
+			console.log("успешно")
+			setIsRegistered(true)
+		} catch (e) {
+			setIsRegistered(false)
+		}
+	}
 
-  const logout = async () => {
-    await signOut(auth);
-  };
+	console.log("userEmail: ", currentUser?.email)
 
+	return (
+		<>
+			<div>
+				<h3> Login / Sign Up</h3>
+				<input
+					placeholder='Email...'
+					onChange={event => {
+						setLoginEmail(event.target.value)
+					}}
+				/>
+				<input
+					placeholder='Password...'
+					onChange={event => {
+						setLoginPassword(event.target.value)
+					}}
+				/>
 
-  const register = async () => {
-    try {
-      const auth = getAuth();
-      await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
-      console.log('успешно');
-      setIsRegistered(true)
-    } catch (e) {
-      console.log("e", e.code);
-      setIsRegistered(false)
-    }
-  };
+				<button onClick={login}> Login</button>
+			</div>
+			{currentUser ? (
+				<h4> User Logged In: {currentUser?.email}</h4>
+			) : (
+				<h4>please login or register</h4>
+			)}
+      {currentUser && <button onClick={logout}>Sign Out </button>}
+			
 
+			<button onClick={register}>Register</button>
+			{isRegistered && <div>Успешная регистрация</div>}
+		</>
+	)
+}
 
-  return (
-    <>
-      <div>
-        <h3> Login / Sign Up</h3>
-        <input
-          placeholder="Email..."
-          onChange={(event) => {
-            setLoginEmail(event.target.value);
-          }}
-        />
-        <input
-          placeholder="Password..."
-          onChange={(event) => {
-            setLoginPassword(event.target.value);
-          }}
-        />
-
-        <button onClick={login}> Login</button>
-      </div>
-
-      <h4> User Logged In: </h4>
-      {user?.email}
-      <button onClick={logout}> Sign Out </button>
-
-      <button onClick={register}>register</button>
-      {isRegistered && <div>Успешная регистрация</div>}
-    </>
-  );
-};
-
-export default Login;
+export default Login
