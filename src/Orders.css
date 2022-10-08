@@ -1,35 +1,45 @@
-
 .tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-  }
-  
-  
-  .tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-  }
-  
-  
-  .tab button:hover {
-    background-color: #ddd;
-  }
-  
-  
-  .tab button.active {
-    background-color: #ccc;
-  }
-  
-  
-  .tabcontent {
-    display: block;
-    padding: 6px 12px;
-    border-top: none;
-  }
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+}
+
+.tab button {
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
+}
+
+.tab button:hover {
+	background-color: #ddd;
+}
+
+.tab button.active {
+	background-color: #ccc;
+}
+
+.tabcontent {
+	display: block;
+	padding: 6px 12px;
+	border-top: none;
+}
+
+.nav-link__wrap {
+  margin: 12px 0 12px 0;
+}
+
+
+.nav-link__login {
+	background-color: thistle;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.nav-link__email {
+	margin-left: 12px;
+}

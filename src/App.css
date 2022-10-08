@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
 
 body {
   text-align: center;
@@ -55,8 +59,4 @@ body {
   margin-left: 20px;
 }
 
-.nav-link {
-  text-decoration: none;
-  color: black;
-  margin: 40px;
-}
+

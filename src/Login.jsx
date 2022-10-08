@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { auth } from "./firebase/firebase"
 import {
 	createUserWithEmailAndPassword,
@@ -8,6 +8,7 @@ import {
 	signOut
 } from "firebase/auth"
 import { AuthContext } from "./firebase/AuthProvider"
+import "./Login.css"
 
 const Login = () => {
 	const [loginEmail, setLoginEmail] = useState("")
@@ -54,6 +55,9 @@ const Login = () => {
 	return (
 		<>
 			<div>
+        {currentUser && <Link className='links__back' to='/react-test-orders/'>
+					Back to main
+				</Link>}
 				<h3> Login / Sign Up</h3>
 				<input
 					placeholder='Email...'
@@ -75,8 +79,7 @@ const Login = () => {
 			) : (
 				<h4>please login or register</h4>
 			)}
-      {currentUser && <button onClick={logout}>Sign Out </button>}
-			
+			{currentUser && <button onClick={logout}>Sign Out </button>}
 
 			<button onClick={register}>Register</button>
 			{isRegistered && <div>Успешная регистрация</div>}
