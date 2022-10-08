@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./App.css";
-import Orders from "./Orders";
 import { AuthProvider } from "./firebase/AuthProvider";
-import Login from "./Login";
 import SignUp from "./SignUp";
+
+import "./App.css";
+import Login from "./login/Login";
+import Orders from "./orders/Orders";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           <Routes>
             <Route path="react-test-orders" element={<Orders />} />
             <Route exact path="react-test-orders/login" element={<Login />} />
-            <Route exact path="react-test-orders/signup" element={<SignUp />} />
+            {/* <Route exact path="react-test-orders/signup" element={<SignUp />} /> */}
           </Routes>
         </AuthProvider>
       </BrowserRouter>

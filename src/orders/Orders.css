@@ -43,3 +43,12 @@
 .nav-link__email {
 	margin-left: 12px;
 }
+
+.order-table__count {
+	position: relative
+}
+
+.order-table__remove {
+	position: absolute;
+	right: 340px;
+}

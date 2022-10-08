@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
-import { createOrder } from "./api/createOrder"
-import { getOrdersData } from "./api/getOrders"
-import { AuthContext } from "./firebase/AuthProvider"
+import { createOrder } from "../api/createOrder"
+import { getOrdersData } from "../api/getOrders"
+import { AuthContext } from "../firebase/AuthProvider"
 import { Link } from "react-router-dom"
 
 import "./Orders.css"
@@ -64,6 +64,9 @@ export default function Orders() {
 				.finally(() => {
 					setError(false)
 					setIsLoading(false)
+					setTimeout(() => {
+						setIsSuccessed(false)
+					}, 3000)
 				})
 		} else {
 			setError(true)
@@ -103,7 +106,7 @@ export default function Orders() {
 							value={textOrder}
 						/>
 
-						<button type='button' onClick={addNewOrder}>
+						<button type='button' onClick={addNewOrder} disabled={isLoading}>
 							add order
 						</button>
 						{isSuccessed && <div>Заявка успешно добавлена</div>}
@@ -131,8 +134,14 @@ export default function Orders() {
 							</div>
 							{sortOrdersResult.map((order, index) => (
 								<div className='order-table__row' key={index}>
-									<div>{order.documentName}</div>
-									<div>{order.count}</div>
+									<div className='order-table__name'>{order.documentName}</div>
+									<div className='order-table__count'>{order.count}</div>
+									<div
+										className='order-table__remove'
+										onClick={console.log("fff")}
+									>
+										X
+									</div>
 								</div>
 							))}
 						</div>

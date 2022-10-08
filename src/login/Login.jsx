@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { auth } from "./firebase/firebase"
+import { auth } from "../firebase/firebase"
 import {
 	createUserWithEmailAndPassword,
 	getAuth,
 	signInWithEmailAndPassword,
 	signOut
 } from "firebase/auth"
-import { AuthContext } from "./firebase/AuthProvider"
+import { AuthContext } from "../firebase/AuthProvider"
+
 import "./Login.css"
 
 const Login = () => {
@@ -43,7 +44,6 @@ const Login = () => {
 		try {
 			const auth = getAuth()
 			await createUserWithEmailAndPassword(auth, loginEmail, loginPassword)
-			console.log("успешно")
 			setIsRegistered(true)
 		} catch (e) {
 			setIsRegistered(false)
