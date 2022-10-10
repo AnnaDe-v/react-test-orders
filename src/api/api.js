@@ -38,8 +38,11 @@ export const put = (endpoint, data) => {
   }).then((res) => handleResponse(res));
 };
 
-export const remove = (id) => {
-  return fetch(`${API_URL}/${id}`, {
+export const remove = (data) => {
+
+
+  
+  return fetch(`${API_URL}/${data}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',

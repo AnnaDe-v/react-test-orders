@@ -42,9 +42,6 @@ body {
   padding: 5px 40px 5px 40px;
 }
 
-.order-table__row + .order-table__row {
-  margin-left: 20px;
-}
 
 .order-table__description {
   font-weight: bold;

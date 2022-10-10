@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { createOrder } from "../api/createOrder"
 import { getOrdersData } from "../api/getOrders"
+import { removeOrder } from "../api/removeOrder"
 import { AuthContext } from "../firebase/AuthProvider"
 import { Link } from "react-router-dom"
 
@@ -13,6 +14,7 @@ export default function Orders() {
 	const [isLoading, setIsLoading] = useState(false)
 	const [isSuccessed, setIsSuccessed] = useState(false)
 	const [error, setError] = useState(false)
+	const [currentId, setCurrentId] = useState(null)
 
 	useEffect(() => {
 		getOrders()
@@ -49,7 +51,6 @@ export default function Orders() {
 				x => x["name"] === textSelect && x["documentName"] === textOrder
 			) == false
 		) {
-			setError(false)
 			setIsLoading(true)
 			return createOrder({ name, documentName })
 				.then(() => getOrders())
@@ -73,6 +74,34 @@ export default function Orders() {
 		}
 	}
 
+
+
+	function removeOrderHandler(ordersName) {
+		console.log(ordersName);
+		let data = []
+		const ff = ordersData.forEach((t, index) => t.documentName === ordersName ?  data.push(t.id) : t)
+		console.log(data);
+
+
+		setIsLoading(true)
+		return removeOrder({data})
+			.then(() => getOrders())
+			.then(() => {
+				setTextOrder("")
+				setIsSuccessed(true)
+			})
+			.catch(err => {
+				setError(true)
+				console.error(err)
+			})
+			.finally(() => {
+				setError(false)
+				setIsLoading(false)
+			})
+	}
+  
+	console.log('ordersData', ordersData);
+
 	const filteredOrdersData = ordersData.reduce(function (o, i) {
 		if (!o.hasOwnProperty(i["documentName"])) {
 			o[i["documentName"]] = 0
@@ -85,9 +114,15 @@ export default function Orders() {
 		return { documentName: o, count: filteredOrdersData[o] }
 	})
 
+
 	const sortOrdersResult = ordersResult.sort(function (b, a) {
 		return a.count - b.count
 	})
+
+	const Result = sortOrdersResult.map((o, index) => o)
+
+
+
 
 	const items = [
 		{
@@ -132,13 +167,13 @@ export default function Orders() {
 									Количество заявок
 								</div>
 							</div>
-							{sortOrdersResult.map((order, index) => (
+							{Result.map((order, index) => (
 								<div className='order-table__row' key={index}>
 									<div className='order-table__name'>{order.documentName}</div>
 									<div className='order-table__count'>{order.count}</div>
 									<div
 										className='order-table__remove'
-										onClick={console.log("fff")}
+										onClick={() => removeOrderHandler(order.documentName)}
 									>
 										X
 									</div>
