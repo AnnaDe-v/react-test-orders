@@ -6,6 +6,7 @@ import { AuthContext } from "../firebase/AuthProvider"
 import { Link } from "react-router-dom"
 
 import "./Orders.css"
+import { remove } from "../api/api"
 
 export default function Orders() {
 	const [ordersData, setOrdersData] = useState([])
@@ -79,17 +80,12 @@ export default function Orders() {
 	function removeOrderHandler(ordersName) {
 		console.log(ordersName);
 		let data = []
-		const ff = ordersData.forEach((t, index) => t.documentName === ordersName ?  data.push(t.id) : t)
-		console.log(data);
-
+		ordersData.forEach(t => t.documentName === ordersName ?  data.push(t.id) : t)
 
 		setIsLoading(true)
-		return removeOrder({data})
+		Promise.all(remove(data))
+			// remove(data)
 			.then(() => getOrders())
-			.then(() => {
-				setTextOrder("")
-				setIsSuccessed(true)
-			})
 			.catch(err => {
 				setError(true)
 				console.error(err)
@@ -100,8 +96,6 @@ export default function Orders() {
 			})
 	}
   
-	console.log('ordersData', ordersData);
-
 	const filteredOrdersData = ordersData.reduce(function (o, i) {
 		if (!o.hasOwnProperty(i["documentName"])) {
 			o[i["documentName"]] = 0
@@ -167,16 +161,16 @@ export default function Orders() {
 									Количество заявок
 								</div>
 							</div>
-							{Result.map((order, index) => (
+							{sortOrdersResult.map((order, index) => (
 								<div className='order-table__row' key={index}>
 									<div className='order-table__name'>{order.documentName}</div>
 									<div className='order-table__count'>{order.count}</div>
-									<div
+									<button
 										className='order-table__remove'
 										onClick={() => removeOrderHandler(order.documentName)}
 									>
 										X
-									</div>
+									</button>
 								</div>
 							))}
 						</div>
