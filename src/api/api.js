@@ -1,4 +1,4 @@
-import { API_URL } from "./constants"
+import { API_URL_ORDERS, API_URL_USERS } from "./constants"
 
 const handleResponse = response => {
 	if (response.ok) {
@@ -8,13 +8,13 @@ const handleResponse = response => {
 }
 
 export const getOrders = () => {
-	return fetch(`${API_URL}`, {
+	return fetch(`${API_URL_ORDERS}`, {
 		method: "GET"
 	}).then(res => handleResponse(res))
 }
 
 export const post = data => {
-	return fetch(`${API_URL}`, {
+	return fetch(`${API_URL_ORDERS}`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -28,7 +28,7 @@ export const post = data => {
 export const remove = (data) => {
 	console.log(data)
      let req = data.map(id => {
-		return fetch(`${API_URL}/${id}`, {
+		return fetch(`${API_URL_ORDERS}/${id}`, {
 			method: "DELETE",
 			headers: {
 			  Accept: "application/json",
@@ -36,6 +36,14 @@ export const remove = (data) => {
 			}
 		  }).then(res => handleResponse(res))
   })
-//   return Promise.all(req)
   return req
+}
+
+
+
+
+export const getUsersData = () => {
+	return fetch(`${API_URL_USERS}`, {
+		method: "GET"
+	}).then(res => handleResponse(res))
 }

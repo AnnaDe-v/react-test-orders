@@ -6,25 +6,42 @@ import { AuthContext } from "../firebase/AuthProvider"
 import { Link } from "react-router-dom"
 
 import "./Orders.css"
-import { remove } from "../api/api"
+import { getUsersData, remove } from "../api/api"
 
 export default function Orders() {
 	const [ordersData, setOrdersData] = useState([])
+	const [usersData, setUsersData] = useState([])
 	const [textOrder, setTextOrder] = useState("")
 	const [textSelect, setTextSelect] = useState("Иванов И. И.")
 	const [isLoading, setIsLoading] = useState(false)
 	const [isSuccessed, setIsSuccessed] = useState(false)
 	const [error, setError] = useState(false)
-	const [currentId, setCurrentId] = useState(null)
+
+
 
 	useEffect(() => {
 		getOrders()
+		getUsers()
+		console.log(usersData, usersData)
 	}, [])
 
 	const getOrders = () => {
 		setIsLoading(true)
 		return getOrdersData()
 			.then(orders => setOrdersData(orders))
+			.catch(err => {
+				console.error(err)
+				setError(true)
+			})
+			.finally(() => {
+				setIsLoading(false)
+			})
+	}
+
+	const getUsers = () => {
+		setIsLoading(true)
+		return getUsersData()
+			.then(users => setUsersData(users))
 			.catch(err => {
 				console.error(err)
 				setError(true)
@@ -75,16 +92,15 @@ export default function Orders() {
 		}
 	}
 
-
-
 	function removeOrderHandler(ordersName) {
-		console.log(ordersName);
+		console.log(ordersName)
 		let data = []
-		ordersData.forEach(t => t.documentName === ordersName ?  data.push(t.id) : t)
+		ordersData.forEach(t =>
+			t.documentName === ordersName ? data.push(t.id) : t
+		)
 
 		setIsLoading(true)
 		Promise.all(remove(data))
-			// remove(data)
 			.then(() => getOrders())
 			.catch(err => {
 				setError(true)
@@ -95,7 +111,7 @@ export default function Orders() {
 				setIsLoading(false)
 			})
 	}
-  
+
 	const filteredOrdersData = ordersData.reduce(function (o, i) {
 		if (!o.hasOwnProperty(i["documentName"])) {
 			o[i["documentName"]] = 0
@@ -108,15 +124,11 @@ export default function Orders() {
 		return { documentName: o, count: filteredOrdersData[o] }
 	})
 
-
 	const sortOrdersResult = ordersResult.sort(function (b, a) {
 		return a.count - b.count
 	})
 
 	const Result = sortOrdersResult.map((o, index) => o)
-
-
-
 
 	const items = [
 		{
@@ -125,10 +137,13 @@ export default function Orders() {
 				<section className='order-form'>
 					<div className='container'>
 						<select onClick={handleSelectValue}>
-							<option value='Иванов И. И.'>Иванов И. И.</option>
-							<option value='Петров П. П.'>Петров П. П.</option>
-							<option value='Сидоров С. С'>Сидоров С. С</option>
+							{usersData.map((user, index) => (
+								<option key={index} value={user.name}>
+									{user.name}
+								</option>
+							))}
 						</select>
+
 						<input
 							type='text'
 							onChange={handleEditInputValue}
@@ -138,7 +153,9 @@ export default function Orders() {
 						<button type='button' onClick={addNewOrder} disabled={isLoading}>
 							add order
 						</button>
-						{isSuccessed && <div>Заявка успешно добавлена</div>}
+						{isSuccessed ? (<div>Заявка успешно добавлена</div>) :
+										(<div style={{height: 21.6}}></div>)
+						}
 						{error && (
 							<div>
 								Пользователь с именем {textSelect} уже оставлял заявку на данный
@@ -190,14 +207,14 @@ export default function Orders() {
 	)
 }
 
-const TabContent = ({ title, content }) => (
+const TabContent = ({ content }) => (
 	<div className='tabcontent'>
 		<div>{content}</div>
 	</div>
 )
 
 export function Tabs({ items }) {
-	const [active, setActive] = React.useState(null)
+	const [active, setActive] = React.useState(1)
 
 	const { currentUser } = useContext(AuthContext)
 
